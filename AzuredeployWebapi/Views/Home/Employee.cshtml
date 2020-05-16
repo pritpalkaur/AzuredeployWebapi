@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+            table tr:nth-child(odd) {
+                background-color: #f1f1f1;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #ffffff;
+            }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('customersCtrl', function ($scope, $http) {
+            $http.get("http://localhost:56621/api/Employees")
+                .then(function (response) {
+                    console.log(response);
+                    $scope.names = response.data[0].State;
+                    $scope.names1 = response.data;
+                    //  alert(response.data);
+                });
+        });
+    </script>
+</head>
+
+
+<body ng-app="myApp" ng-controller="customersCtrl">
+    <div>
+        <h1>created by pritpal kaur </h1>
+        <table>
+            <tr ng-repeat="x in names">
+                <td>{{ x.EmpId }}</td>
+                <td>{{ x.EmpFirstName }}</td>
+                <td>{{ x.EmpLastName }}</td>
+            </tr>
+        </table>
+        <table class="customer table table-bordered">
+            <thead>
+                <tr>
+                    <th class="first">EmpId<span class="sortable"></span></th>
+                    <th class="opp-detail">EmpFirstName</th>
+                    <th class="opp-detail">EmpLastName</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="customer in names1">
+                <tr>
+                    <td>{{customer.EmpId}}</td>
+                    <td class="opp-detail">{{customer.EmpFirstName}}</td>
+                    <td class="opp-detail">{{customer.EmpLastName}}</td>
+                </tr>
+             
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

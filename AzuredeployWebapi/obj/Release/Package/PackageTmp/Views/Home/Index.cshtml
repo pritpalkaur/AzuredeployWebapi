@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+            table tr:nth-child(odd) {
+                background-color: #f1f1f1;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #ffffff;
+            }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+    </script>
+</head>
+
+
+<body ng-app="myApp" ng-controller="customersCtrl">
+    <div>
+        <h1>created by pritpal kaur </h1>
+        <table>
+            <tr ng-repeat="x in names">
+                <td>{{ x.Name }}</td>
+                <td>{{ x.StateId }}</td>
+            </tr>
+        </table>
+        <table class="customer table table-bordered">
+            <thead>
+                <tr>
+                    <th class="first">Country Id<span class="sortable"></span></th>
+                    <th class="opp-detail">Country Name</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="customer in names1">
+                <tr>
+                    <td>{{customer.CountryId}}</td>
+                    <td class="opp-detail">{{customer.Name}}</td>
+                </tr>
+                <tr class="collapsed">
+                    <td colspan="2">
+
+                        <table class="customer-details collapsed table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="opp-detail">Name</th>
+                                    <th class="opp-detail">Address</th>
+                                    <th class="opp-detail">City</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in names">
+                                    <td class="opp-detail">{{x.Name}}</td>
+                                    <td class="opp-detail">{{x.StateId}}</td>
+                                    <td class="opp-detail">{{x.City}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('customersCtrl', function ($scope, $http) {
+            $http.get("https://azuredeploywebapi20191010085317.azurewebsites.net/api/country")
+                .then(function (response) {
+                    console.log(response);
+                    $scope.names = response.data[0].State;
+                    $scope.names1 = response.data;
+                    //  alert(response.data);
+                });
+        });
+    </script>
+</body>
+
+</html>
+
